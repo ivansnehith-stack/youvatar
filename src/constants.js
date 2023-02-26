@@ -18,7 +18,6 @@ export const levelOptions = [
 ];
 
 export const category = [
-  { value: "all", label: "All" },
   { value: "web-development", label: "Web Development" },
   { value: "mobile-development", label: "Mobile Development" },
   { value: "data-science", label: "Data Science" },

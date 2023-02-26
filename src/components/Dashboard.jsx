@@ -298,7 +298,7 @@ const Dashboard = () => {
                 <div
                   className="graph "
                   data-name="completed"
-                  style={{ "--percentage": "50", "--fill": "#0A6ED1 " }}
+                  style={{ "--percentage": "50", "--fill": "#3949AB " }}
                 />
                 <div className="text-black absolute flex flex-col items-center">
                   <p>Percentage</p>
