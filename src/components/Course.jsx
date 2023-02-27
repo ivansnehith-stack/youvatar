@@ -25,6 +25,9 @@ const Course = () => {
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [selectedLevel, setSelectedLevel] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
+  const [videoPreview, setVideoPreview] = useState();
+  const [landingPagePreview, setLandingPagePreview] = useState();
+
   const isFirstMount = useFirstMount();
 
   const [error, setError] = useState({
@@ -50,6 +53,28 @@ const Course = () => {
       setError((prev) => ({ ...prev, language: false }));
     }
   }, [selectedLanguage, selectedLevel]);
+
+  const handleCloseClick = (e) => {
+    e.preventDefault();
+    setVideoPreview(null);
+  };
+
+  const handleCloseLandingPage = (e) => {
+    e.preventDefault();
+    setLandingPagePreview(null);
+  };
+
+  const handleVideoFileChange = (e) => {
+    const file = e.target.files[0];
+    const fileUrl = URL.createObjectURL(file);
+    setVideoPreview(fileUrl);
+  };
+
+  const handleLandingPageChange = (e) => {
+    const file = e.target.files[0];
+    const fileUrl = URL.createObjectURL(file);
+    setLandingPagePreview(fileUrl);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -243,46 +268,89 @@ const Course = () => {
           />
         </div>
 
-        <div className="my-[22px]">
-          <p>Upload Video or ppt</p>
-          <label
-            htmlFor="banner"
-            className={clsxm(
-              "rounded border border-dashed border-black p-6",
-              "flex cursor-pointer items-center justify-center"
-            )}
-          >
-            <div className="flex  flex-col items-center justify-center">
-              <div className="py-2 px-1">
-                <img src={"/assets/upload.svg"} alt="upload" />
-              </div>
+        {videoPreview ? (
+          <div className="relative my-5">
+            <img src={decodeURIComponent(videoPreview)} alt="banner" />
+            <img
+              src="/assets/close.svg"
+              alt="close"
+              role="button"
+              aria-label="Remove banner"
+              onClick={handleCloseClick}
+              className={clsxm(
+                "absolute -top-2 -right-2 rounded-full p-[6px]  cursor-pointer",
+                "text-white "
+              )}
+            />
+          </div>
+        ) : (
+          <div className="my-[22px]">
+            <p>Upload Video or ppt</p>
+            <label
+              htmlFor="banner"
+              className={clsxm(
+                "rounded border border-dashed border-black p-6",
+                "flex cursor-pointer items-center justify-center"
+              )}
+            >
+              <input
+                type={"file"}
+                id="banner"
+                className="hidden"
+                onChange={handleVideoFileChange}
+              />
+              <div className="flex  flex-col items-center justify-center">
+                <div className="py-2 px-1">
+                  <img src={"/assets/upload.svg"} alt="upload" />
+                </div>
 
-              <div className="cursor-pointer text-sm font-medium">
-                <span className="font-bold ">Browse</span> to upload
+                <div className="cursor-pointer text-sm font-medium">
+                  <span className="font-bold ">Browse</span> to upload
+                </div>
               </div>
-            </div>
-          </label>
-        </div>
-        <div className="mb-9">
-          <p>Upload Landing photo</p>
-          <label
-            htmlFor="banner"
-            className={clsxm(
-              "rounded border border-dashed border-black p-6",
-              "flex cursor-pointer items-center justify-center"
-            )}
-          >
-            <div className="flex  flex-col items-center justify-center">
-              <div className="py-2 px-1">
-                <img src={"/assets/upload.svg"} alt="upload" />
-              </div>
+            </label>
+          </div>
+        )}
+        {landingPagePreview ? (
+          <div className="relative my-5">
+            <img src={decodeURIComponent(landingPagePreview)} alt="preview" />
+            <img
+              src="/assets/close.svg"
+              alt="close"
+              role="button"
+              aria-label="preview"
+              onClick={handleCloseLandingPage}
+              className="absolute -top-2 -right-2 rounded-full p-[6px] fill-white stroke-white cursor-pointer"
+            />
+          </div>
+        ) : (
+          <div className="mb-9">
+            <p>Upload Landing photo</p>
+            <label
+              htmlFor="landing"
+              className={clsxm(
+                "rounded border border-dashed border-black p-6",
+                "flex cursor-pointer items-center justify-center"
+              )}
+            >
+              <input
+                type={"file"}
+                id="landing"
+                className="hidden"
+                onChange={handleLandingPageChange}
+              />
+              <div className="flex  flex-col items-center justify-center">
+                <div className="py-2 px-1">
+                  <img src={"/assets/upload.svg"} alt="upload" />
+                </div>
 
-              <div className="cursor-pointer text-sm font-medium">
-                <span className="font-bold ">Browse</span> to upload
+                <div className="cursor-pointer text-sm font-medium">
+                  <span className="font-bold ">Browse</span> to upload
+                </div>
               </div>
-            </div>
-          </label>
-        </div>
+            </label>
+          </div>
+        )}
         <div className="flex items-center justify-between">
           <Button label="Back" variant="link" className="pl-0" />
           <Button
